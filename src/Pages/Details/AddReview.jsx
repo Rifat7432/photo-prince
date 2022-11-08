@@ -40,6 +40,7 @@ const AddReview = ({ service }) => {
     })
       .then((res) => res.json())
       .then((user) => {
+        console.log(user)
         form.reset();
       })
       .catch((err) => console.error(err));
