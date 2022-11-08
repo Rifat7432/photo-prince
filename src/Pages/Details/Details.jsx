@@ -5,7 +5,7 @@ import AddReview from "./AddReview";
 const Details = () => {
   const [service] = useLoaderData();
   console.log(service);
-  const { description, rating, price, _id, name, img } = service;
+  const { description, rating, price, name, img } = service;
   return (
     <div>
       <div className="card card-compact w-3/4 mx-auto bg-base-100 border">

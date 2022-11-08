@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     return signOut(auth)
       .then(() => {
-        localStorage.removeItem("token");
+        // localStorage.removeItem("token");
       })
       .catch((error) => {
         // An error happened.

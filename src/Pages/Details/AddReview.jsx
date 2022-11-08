@@ -1,7 +1,12 @@
 import React from "react";
+import { useContext } from "react";
+import { Link, Navigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../../AuthContext/AuthProvider";
 
 const AddReview = ({ service }) => {
-  const { description, rating, price, _id, name, img } = service;
+  const {  _id, name, } = service;
+  const location = useLocation()
+  const {user} = useContext(AuthContext)
   const handleOrder = (event) => {
     event.preventDefault();
     const dateTime = new Date().toLocaleString();
@@ -46,8 +51,8 @@ const AddReview = ({ service }) => {
           >
             ✕
           </label>
-
-          <form onSubmit={handleOrder}>
+          {
+            user?.uid ?  <form onSubmit={handleOrder}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
               <input
                 name="Name"
@@ -74,6 +79,13 @@ const AddReview = ({ service }) => {
               </label>
             </button>
           </form>
+          : 
+          <div>
+            <h2>You have to Login for add any review</h2>
+            <Link  className="btn btn-outline btn-primary mt-2" to={'/login'}>Login</Link>
+          </div>
+          }
+         
         </div>
       </div>
     </div>

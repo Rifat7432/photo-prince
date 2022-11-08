@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import signUPImg from "../../Image/download (1).png";
+import SocialLogin from "../../Share/SocialLogin";
 
 const SignUp = () => {
   const { signUp, update } = useContext(AuthContext);
@@ -23,7 +24,7 @@ const SignUp = () => {
       .catch((e) => console.error(e));
   };
   return (
-    <div className="hero min-h-screen rounded bg-base-200">
+    <div className="hero min-h-screen rounded ">
       <div className="hero-content lg:gap-48 flex-col lg:flex-row">
         <div className="text-center lg:text-left">
           <img
@@ -82,14 +83,17 @@ const SignUp = () => {
                 placeholder="password"
                 className="input input-bordered"
               />
-              <label className="label">
-                <Link className="label-text-alt link link-hover">Login</Link>
-              </label>
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Sign Up</button>
             </div>
+              <label className="label">
+                <Link className="label-text-alt link link-hover">Login</Link>
+              </label>
           </form>
+          <div className="mx-auto mb-6">
+            <SocialLogin text={'Sign Up'}></SocialLogin>
+          </div>
         </div>
       </div>
     </div>
