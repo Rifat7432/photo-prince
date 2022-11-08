@@ -26,7 +26,9 @@ const AddReview = ({ service }) => {
       body: JSON.stringify(review),
     })
       .then((res) => res.json())
-      .then((user) => {})
+      .then((user) => {
+        form.reset()
+      })
       .catch((err) => console.error(err));
   };
   return (
@@ -44,9 +46,9 @@ const AddReview = ({ service }) => {
           >
             ✕
           </label>
-          
+
           <form onSubmit={handleOrder}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
               <input
                 name="Name"
                 type="text"
@@ -65,7 +67,12 @@ const AddReview = ({ service }) => {
               className="textarea textarea-bordered h-36 w-full"
               placeholder="Your massage"
             ></textarea>
-            <input className="btn" type="submit" value="Post" />
+            <button className="btn p-0">
+              {" "}
+              <label htmlFor="my-modal-3" className="p-4">
+                Post
+              </label>
+            </button>
           </form>
         </div>
       </div>
