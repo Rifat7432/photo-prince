@@ -25,9 +25,6 @@ const router = createBrowserRouter([
             {
                 path:'/myreview/:email',
                 element:<Privet><MyReviews></MyReviews></Privet>,
-                loader: async({params})=>{
-                    return fetch(`http://localhost:5000/userReview/${params.email}`)
-                 }
             },
             {
                 path:'/signup',

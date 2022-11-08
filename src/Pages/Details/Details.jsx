@@ -13,7 +13,7 @@ const Details = () => {
   const { description, rating, price, _id, name, img } = service;
   const { isAdded } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
-  console.log(reviews)
+  console.log(reviews.length===0)
   useEffect(() => {
     fetch(`http://localhost:5000/serviceReview/${_id}`)
       .then((res) => res.json())
@@ -30,14 +30,14 @@ const Details = () => {
           <p className="font-semibold text-xl ">{description}</p>
           <div className="card-actions justify-evenly">
             <p className="font-semibold text-lg ">Price : {price}</p>
-            <span className="badge badge-ghost font-semibold text-lg ">Rating : {(rating/reviews.length).toFixed(1)}<span className="text-amber-500 ml-2">
+            <span className="badge badge-ghost font-semibold text-lg ">Rating : {reviews.length === 0 ? 0 :(rating/reviews.length).toFixed(1)}<span className="text-amber-500 ml-2">
             <FaStar></FaStar>
           </span></span>
           </div>
         </div>
       </div>
       <div className="w-3/4 mx-auto my-12">
-        {<ShoeReview editable={false}  reviews={reviews}></ShoeReview>}
+        {reviews.length > 0 ? <ShoeReview editable={false}  reviews={reviews}></ShoeReview>:<h3 className="text-4xl font-bold w-1/2 m-auto text-center">No reviews were added !</h3>}
       </div>
       <div className="w-1/4 ml-auto">
         <AddReview  service={service}></AddReview>
