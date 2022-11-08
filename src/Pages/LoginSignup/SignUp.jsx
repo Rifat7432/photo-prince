@@ -87,8 +87,9 @@ const SignUp = () => {
             <div className="form-control mt-6">
               <button className="btn btn-primary">Sign Up</button>
             </div>
-              <label className="label">
-                <Link className="label-text-alt link link-hover">Login</Link>
+              <label className="text-lg">
+                Already have account 
+                <Link to={'/login'} className=" text-cyan-600 link link-hover ml-4">Login</Link>
               </label>
           </form>
           <div className="mx-auto mb-6">

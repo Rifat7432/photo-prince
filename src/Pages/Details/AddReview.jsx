@@ -2,21 +2,23 @@ import React from "react";
 import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../AuthContext/AuthProvider";
+import { FaPaperPlane } from "react-icons/fa";
 import { useState } from "react";
 import ReactStars from "react-rating-stars-component";
 
-const AddReview = ({ service }) => {
+const AddReview = ({ service ,setIsAdded}) => {
   const [rating, setRating] = useState(0);
 
   const { _id, name } = service;
-  const location = useLocation();
   const { user } = useContext(AuthContext);
   const ratingChanged = (newRating) => {
     setRating(newRating);
   };
   const handleOrder = (event) => {
-    console.log(rating)
     event.preventDefault();
+    if(rating === 0){
+     return;
+    }
     const dateTime = new Date().toLocaleString();
     // console.log(new Date(dateTime).getTime())
     const form = event.target;
@@ -40,7 +42,7 @@ const AddReview = ({ service }) => {
     })
       .then((res) => res.json())
       .then((user) => {
-        console.log(user)
+        setIsAdded(user)
         form.reset();
       })
       .catch((err) => console.error(err));
@@ -94,14 +96,16 @@ const AddReview = ({ service }) => {
               </div>
               <textarea
                 name="massage"
+                required
                 className="textarea textarea-bordered h-36 w-full"
                 placeholder="Your massage"
               ></textarea>
               <button className="btn p-0">
-                {" "}
-                <label htmlFor="my-modal-3" className="p-4">
-                  Post
+                
+                <label htmlFor="my-modal-3" style={{cursor:'pointer'}} className="p-4 flex">
+                  Post<span className="ml-5"><FaPaperPlane></FaPaperPlane></span>
                 </label>
+                
               </button>
             </form>
           ) : (

@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import AddReview from "./AddReview";
+import ShoeReview from "../../Share/ShoeReview";
+import { useEffect } from "react";
 
 const Details = () => {
-  const [service] = useLoaderData();
+  const [service] = useLoaderData()
+  const [isAdded,setIsAdded] = useState({})
   console.log(service);
-  const { description, rating, price, name, img } = service;
+  const { description, rating, price, _id, name, img } = service;
   return (
     <div>
       <div className="card card-compact w-3/4 mx-auto bg-base-100 border">
         <figure>
-          <img src={img} className='w-full' alt="Shoes" />
+          <img src={img} className="w-full" alt="Shoes" />
         </figure>
         <div className="card-body">
           <h2 className="card-title">{name}</h2>
@@ -21,7 +24,12 @@ const Details = () => {
           </div>
         </div>
       </div>
-      <AddReview service={service}></AddReview>
+      <div className="w-3/4 mx-auto my-12">
+        {<ShoeReview isAdded={isAdded} id={_id}></ShoeReview>}
+      </div>
+      <div className="w-1/4 ml-auto">
+        <AddReview setIsAdded={setIsAdded} service={service}></AddReview>
+      </div>
     </div>
   );
 };

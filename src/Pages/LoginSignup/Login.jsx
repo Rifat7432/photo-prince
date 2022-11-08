@@ -79,6 +79,12 @@ const Login = () => {
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
             </div>
+              <label className="text-lg">
+                New to Photo Prince
+                <Link to={'/signup'} className=" text-cyan-600 link link-hover ml-4">
+                  Sign UP
+                </Link>
+              </label>
           </form>
           <div className="mx-auto mb-6">
             <SocialLogin text={'Login'}></SocialLogin>

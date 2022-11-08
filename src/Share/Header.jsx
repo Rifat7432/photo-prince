@@ -9,15 +9,21 @@ const Header = () => {
   <li>
     <Link to={'/'}>Home</Link>
   </li>
+{ user?.uid ? <>
   <li>
-    <Link to={'/login'}>Login</Link>
-  </li>
-  <li>
-    <Link to={'/signup'}>Sign Up</Link>
+    <Link to={'/login'}>My reviews</Link>
+  </li> <li>
+    <Link to={'/login'}> Add service</Link>
   </li>
   <li>
     <Link onClick={logout} >Logout</Link>
   </li>
+
+</>
+  :
+  <li>
+    <Link to={'/login'}>Login</Link>
+  </li>}
   </> 
     return (
         <div className="navbar bg-base-100">
