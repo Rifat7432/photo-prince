@@ -15,6 +15,7 @@ export const AuthContext = createContext({});
 const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
+  const [isAdded,setIsAdded] = useState({})
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const GoogleProvider = new GoogleAuthProvider();
@@ -68,6 +69,8 @@ const AuthProvider = ({ children }) => {
     loading,
     setLoading,
     logout,
+    setIsAdded,
+    isAdded
   };
   return (
     <div>

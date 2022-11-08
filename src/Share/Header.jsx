@@ -11,9 +11,9 @@ const Header = () => {
   </li>
 { user?.uid ? <>
   <li>
-    <Link to={'/login'}>My reviews</Link>
+    <Link to={`/myreview/${user?.email}`}>My Reviews</Link>
   </li> <li>
-    <Link to={'/login'}> Add service</Link>
+    <Link to={'/login'}> Add Service</Link>
   </li>
   <li>
     <Link onClick={logout} >Logout</Link>

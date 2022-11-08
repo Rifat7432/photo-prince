@@ -5,6 +5,9 @@ import AllServices from "./Pages/Home/AllServices";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/LoginSignup/Login";
 import SignUp from "./Pages/LoginSignup/SignUp";
+import MyReviews from "./Pages/MyReviews/MyReviews";
+import Privet from "./Share/Privet";
+import ShoeReview from "./Share/ShoeReview";
 
 const router = createBrowserRouter([
     {
@@ -18,6 +21,13 @@ const router = createBrowserRouter([
             {
                 path:'/login',
                 element:<Login></Login>
+            },
+            {
+                path:'/myreview/:email',
+                element:<Privet><MyReviews></MyReviews></Privet>,
+                loader: async({params})=>{
+                    return fetch(`http://localhost:5000/userReview/${params.email}`)
+                 }
             },
             {
                 path:'/signup',

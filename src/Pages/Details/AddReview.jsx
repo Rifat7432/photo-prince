@@ -1,20 +1,22 @@
 import React from "react";
 import { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { FaPaperPlane } from "react-icons/fa";
 import { useState } from "react";
 import ReactStars from "react-rating-stars-component";
 
-const AddReview = ({ service ,setIsAdded}) => {
-  const [rating, setRating] = useState(0);
-
-  const { _id, name } = service;
-  const { user } = useContext(AuthContext);
+const AddReview = ({ service }) => {
+  const navigate = useNavigate()
+  
+  const { _id, name ,rating} = service;
+  const { user ,setIsAdded} = useContext(AuthContext);
+  const [newRating, setNewRating] = useState(0);
   const ratingChanged = (newRating) => {
-    setRating(newRating);
+    setNewRating(newRating);
   };
-  const handleOrder = (event) => {
+  const handleReview = (event) => {
+    const totalRating = rating + newRating
     event.preventDefault();
     if(rating === 0){
      return;
@@ -29,7 +31,7 @@ const AddReview = ({ service ,setIsAdded}) => {
       Name: user.displayName,
       email: user.email,
       img: user.photoURL,
-      rating:rating,
+      rating:newRating,
       massage,
       dateTime,
     };
@@ -42,10 +44,23 @@ const AddReview = ({ service ,setIsAdded}) => {
     })
       .then((res) => res.json())
       .then((user) => {
-        setIsAdded(user)
         form.reset();
       })
       .catch((err) => console.error(err));
+
+      fetch(`http://localhost:5000/services/${_id}`,{
+      method:"PATCH",
+      headers:{
+        'content-type' : 'application/json',
+      },
+      body:JSON.stringify({rating : totalRating})
+    })
+    .then(res=>res.json())
+    .then(data=>{setIsAdded(data)
+    navigate(`/service/${_id}`)
+    })
+    .catch(e=>console.error(e))
+  
   };
 
   return (
@@ -64,7 +79,7 @@ const AddReview = ({ service ,setIsAdded}) => {
             ✕
           </label>
           {user?.uid ? (
-            <form onSubmit={handleOrder}>
+            <form onSubmit={handleReview}>
               <div className="flex items-center">
                 <p className="text-2xl font-bold">Rating : </p>
                 <div className="flex text-4xl font-bold w-7/12 mx-auto my-10">

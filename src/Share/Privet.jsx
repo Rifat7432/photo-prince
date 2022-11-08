@@ -6,7 +6,7 @@ const Privet = ({children}) => {
     const {user,loading} = useContext(AuthContext)
     const location = useLocation()
     if(loading){
-        return <h2 className='text-5xl'>Loading ...</h2>
+        return <div className="w-16 mx-auto my-auto h-16 border-4 border-dashed rounded-full animate-spin dark:border-blue-400"></div>
     }
     if(user){
         return children;
