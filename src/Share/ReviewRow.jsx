@@ -2,11 +2,15 @@ import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
-import { FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import ReactStars from "react-rating-stars-component";
 import { AuthContext } from "../AuthContext/AuthProvider";
+import ReactDOM from "react-dom";
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
 
 const ReviewRow = ({ review, editable }) => {
+  const { setIsAdded } = useContext(AuthContext);
   const {
     service,
     serviceName,
@@ -22,11 +26,15 @@ const ReviewRow = ({ review, editable }) => {
   const [newRating, setNewRating] = useState(0);
   const [totalRating, setTotalRating] = useState(0);
   const [totalServiceRating, setTotalServiceRating] = useState(0);
+  const [open, setOpen] = useState(false);
   const ratingChanged = (newRating) => {
     setNewRating(newRating);
   };
+
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
   const handleEditReview = (event) => {
-    setTotalRating((totalServiceRating - rating) + newRating);
+    setTotalRating(totalServiceRating - rating + newRating);
     event.preventDefault();
     if (newRating === 0) {
       return;
@@ -46,14 +54,16 @@ const ReviewRow = ({ review, editable }) => {
       body: JSON.stringify(newReview),
     })
       .then((res) => res.json())
-      .then((user) => {})
+      .then((user) => { console.log('working3')})
       .catch((err) => console.error(err));
 
     fetch(`http://localhost:5000/services/${service}`)
       .then((res) => res.json())
       .then((user) => {
+        onCloseModal()
         setTotalServiceRating(user.rating);
         setAdded(user);
+        console.log('working2')
       })
       .catch((err) => console.error(err));
   };
@@ -66,9 +76,22 @@ const ReviewRow = ({ review, editable }) => {
       body: JSON.stringify({ rating: totalRating }),
     })
       .then((res) => res.json())
-      .then((data) => {});
+      .then((data) => {
+        console.log('working1')
+      });
   }, [added]);
 
+  const handelDelete = () => {
+    const agree = window.confirm("are you sure to delete it");
+    if (agree) {
+      fetch(`http://localhost:5000/review/${_id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => setIsAdded(data))
+        .catch((e) => console.error(e));
+    }
+  };
   return (
     <tr>
       <td>
@@ -131,77 +154,68 @@ const ReviewRow = ({ review, editable }) => {
       </th>
       <th>
         {editable && (
-          <label htmlFor="my-modal-5" className="btn  btn-ghost btn-xs">
-            Edit
-          </label>
-        )}
-        <input type="checkbox" id="my-modal-5" className="modal-toggle" />
-        <div className="modal">
-          <div className="modal-box relative">
-            <label
-              htmlFor="my-modal-5"
-              className="btn btn-sm btn-circle absolute right-2 top-2"
+          <div>
+            <button onClick={onOpenModal}>Open modal</button>
+            <button
+              onClick={handelDelete}
+              className="btn btn-outline btn-error rounded-full"
             >
-              ✕
-            </label>
-            <div>
-              <p className="text-lg font-semibold w-1/2 mx-auto">
-                Edit rating and review of {serviceName} and {massage}
-              </p>
-            </div>
-            <form onSubmit={handleEditReview}>
-              <div className="flex items-center">
-                <p className="text-2xl font-bold">Rating : </p>
-                <div className="flex text-4xl font-bold w-7/12 mx-auto my-10">
-                  <ReactStars
-                    count={5}
-                    onChange={ratingChanged}
-                    size={50}
-                    activeColor="#ffd700"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-                <input
-                  name="Name"
-                  type="text"
-                  defaultValue={Name}
-                  readOnly
-                  placeholder=" Name"
-                  className="input mb-5 input-bordered input-ghost w-full"
-                />
-                <input
-                  name="Your Email"
-                  type="text"
-                  defaultValue={email}
-                  readOnly
-                  placeholder="Your Email"
-                  className="input mb-5 input-bordered input-ghost w-full"
-                />
-              </div>
-              <textarea
-                name="massage"
-                required
-                className="textarea textarea-bordered mb-5 h-36 w-full"
-                placeholder="Your massage"
-              ></textarea>
-              <div>
-                <button className="btn p-0">
-                  <label
-                    htmlFor="my-modal-5"
-                    style={{ cursor: "pointer" }}
-                    className="p-4 flex"
-                  >
-                    <span className="mr-5">
-                      <FaPencilAlt></FaPencilAlt>
-                    </span>
-                    Edit
-                  </label>
-                </button>
-              </div>
-            </form>
+              <FaTrashAlt></FaTrashAlt>
+            </button>
           </div>
-        </div>
+        )}
+        <Modal open={open} onClose={onCloseModal} center>
+          <div>
+            <p className="text-lg font-semibold w-1/2 mx-auto">
+              Edit rating and review of {serviceName} and {massage}
+            </p>
+          </div>
+          <form onSubmit={handleEditReview}>
+            <div className="flex items-center">
+              <p className="text-2xl font-bold">Rating : </p>
+              <div className="flex text-4xl font-bold w-7/12 mx-auto my-10">
+                <ReactStars
+                  count={5}
+                  onChange={ratingChanged}
+                  size={50}
+                  activeColor="#ffd700"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+              <input
+                name="Name"
+                type="text"
+                defaultValue={Name}
+                readOnly
+                placeholder=" Name"
+                className="input mb-5 input-bordered input-ghost w-full"
+              />
+              <input
+                name="Your Email"
+                type="text"
+                defaultValue={email}
+                readOnly
+                placeholder="Your Email"
+                className="input mb-5 input-bordered input-ghost w-full"
+              />
+            </div>
+            <textarea
+              name="massage"
+              required
+              className="textarea textarea-bordered mb-5 h-36 w-full"
+              placeholder="Your massage"
+            ></textarea>
+            <div>
+              <button className="btn p-4 flex">
+                <span className="mr-5">
+                  <FaPencilAlt></FaPencilAlt>
+                </span>
+                Edit
+              </button>
+            </div>
+          </form>
+        </Modal>
       </th>
     </tr>
   );
