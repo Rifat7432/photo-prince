@@ -35,10 +35,10 @@ const AddServices = () => {
       setLoading(false)
   };
   return (
-    <form className="relative" onSubmit={handleAddService}>
-    {loading && <div className="absolute top-60 right-60">
+    <form className="my-10" onSubmit={handleAddService}>
+    {loading && <div className="relative"><div className="absolute top-60 right-60">
     <Loading></Loading>
-    </div>}
+    </div></div>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
         <input
           required
@@ -77,7 +77,7 @@ const AddServices = () => {
         className="textarea textarea-bordered mb-5 h-36 w-full"
         placeholder="Description"
       ></textarea>
-      <button className="btn ml-auto p-4 flex">
+      <button className="btn btn-primary btn-outline ml-auto p-4 flex">
         Create
         <span className="ml-5">
           <FaPencilAlt></FaPencilAlt>

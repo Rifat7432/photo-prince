@@ -218,7 +218,7 @@ const ReviewRow = ({ review, editable }) => {
               placeholder="Your massage"
             ></textarea>
             <div>
-              <button className="btn p-4 flex">
+              <button className="btn my-5 btn-outline btn-primary p-4 flex">
                 <span className="mr-5">
                   <FaPencilAlt></FaPencilAlt>
                 </span>

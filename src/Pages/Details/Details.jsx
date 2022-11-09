@@ -23,7 +23,7 @@ const Details = () => {
         setLoading(false)
   }, [isAdded]);
   return (
-    <div>
+    <div className="my-20">
       {
         loading ? <Loading></Loading>:<div>
         <div className="card card-compact w-3/4 mx-auto bg-base-100 border">

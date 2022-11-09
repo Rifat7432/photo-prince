@@ -6,7 +6,7 @@ import ReviewRow from "./ReviewRow";
 
 const ShoeReview = ({ reviews ,editable}) => {
   return (
-    <div className="overflow-x-auto w-full">
+    <div className="overflow-x-auto my-10 w-full">
       <table className="table w-full">
         <thead>
           <tr>

@@ -26,7 +26,7 @@ const Header = () => {
   </li>}
   </> 
     return (
-        <div className="navbar bg-base-100">
+        <div style={{marginTop:'0.03rem'}} className="navbar  bg-primary p-5 text-primary-content rounded-lg shadow-2xl">
   <div className="navbar-start">
     <div className="dropdown">
       <label tabIndex={0} className="btn btn-ghost lg:hidden">

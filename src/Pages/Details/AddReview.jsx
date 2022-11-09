@@ -68,7 +68,7 @@ const AddReview = ({ service }) => {
 
   return (
     <div className="w-3/4 mx-auto">
-      <label htmlFor="my-modal-3" className="btn">
+      <label htmlFor="my-modal-3" className="btn my-10 btn-primary btn-outline">
         Add Review
       </label>
 
@@ -77,7 +77,7 @@ const AddReview = ({ service }) => {
         <div className="modal-box relative">
           <label
             htmlFor="my-modal-3"
-            className="btn btn-sm btn-circle absolute right-2 top-2"
+            className="btn btn-sm btn-circle btn-primary btn-outline absolute right-2 top-2"
           >
             ✕
           </label>
@@ -101,7 +101,7 @@ const AddReview = ({ service }) => {
                   defaultValue={user.displayName}
                   readOnly
                   placeholder=" Name"
-                  className="input input-bordered input-ghost w-full"
+                  className="input mb-5 input-bordered input-ghost w-full"
                 />
                 <input
                   name="Your Email"
@@ -109,16 +109,16 @@ const AddReview = ({ service }) => {
                   defaultValue={user.email}
                   readOnly
                   placeholder="Your Email"
-                  className="input input-bordered input-ghost w-full"
+                  className="input input-bordered mb-5 input-ghost w-full"
                 />
               </div>
               <textarea
                 name="massage"
                 required
-                className="textarea textarea-bordered h-36 w-full"
+                className="textarea textarea-bordered mb-5 h-36 w-full"
                 placeholder="Your massage"
               ></textarea>
-              <button className="btn p-0">
+              <button className="btn p-0 btn-primary mb5 btn-outline">
                 
                 <label htmlFor="my-modal-3" style={{cursor:'pointer'}} className="p-4 flex">
                   Post<span className="ml-5"><FaPaperPlane></FaPaperPlane></span>

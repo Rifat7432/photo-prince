@@ -10,15 +10,16 @@ const ServiceCard = ({ service }) => {
     <div className="card w-96 bg-base-100 shadow-xl">
       <PhotoProvider>
         <PhotoView src={img}>
-          <img src={img} className="h-64 w-full" alt="Shoes" />
+          <img src={img} className="h-64 w-full" alt="unable to show thumbal" />
         </PhotoView>
       </PhotoProvider>
 
       <div className="card-body">
         <h2 className="card-title">{name}</h2>
-      { description && <p>{description.length > 100 ? description.slice(0,100) + '...': description}</p>}
+      { description && <p  className="text-xl">{description.length > 100 ? description.slice(0,100) + '...': description}</p>}
+      <p className="text-xl">{price}</p>
         <div className="card-actions justify-end">
-          <button onClick={()=>navigate(`/service/${_id}`)} className="btn btn-primary">Details</button>
+          <button onClick={()=>navigate(`/service/${_id}`)} className="btn btn-outline btn-primary">Details</button>
         </div>
       </div>
     </div>

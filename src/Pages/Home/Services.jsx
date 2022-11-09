@@ -24,8 +24,8 @@ const Services = () => {
     {loading ?
     <Loading></Loading>
         :
-        <div>
-        <h2 className=" text-4xl">Services</h2>
+        <div className="my-5">
+        <h2 className=" text-5xl my-5 font-extrabold">Services</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
           {services.map((service) => (
             <ServiceCard service={service} key={service._id}></ServiceCard>
@@ -34,7 +34,7 @@ const Services = () => {
         <div className="justify-center align-center flex">
           <button
             onClick={() => nsviget("/allservices")}
-            className="btn btn-outline btn-primary"
+            className="btn btn-outline my-8 btn-primary"
           >
             Show All
           </button>
