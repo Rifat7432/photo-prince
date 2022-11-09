@@ -1,7 +1,11 @@
 import React from "react";
+import { useContext } from "react";
 import { FaPencilAlt } from "react-icons/fa";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import Loading from "../../Share/Loading";
 
 const AddServices = () => {
+  const {    loading,setLoading,} = useContext(AuthContext)
   const handleAddService = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -17,6 +21,7 @@ const AddServices = () => {
       name: name,
       description: description,
     };
+    setLoading(true)
     fetch("http://localhost:5000/services", {
       method: "POST",
       headers: {
@@ -27,9 +32,13 @@ const AddServices = () => {
       .then((res) => res.json())
       .then((user) => {})
       .catch((err) => console.error(err));
+      setLoading(false)
   };
   return (
-    <form onSubmit={handleAddService}>
+    <form className="relative" onSubmit={handleAddService}>
+    {loading && <div className="absolute top-60 right-60">
+    <Loading></Loading>
+    </div>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
         <input
           required

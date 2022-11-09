@@ -10,7 +10,7 @@ import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 
 const ReviewRow = ({ review, editable }) => {
-  const { setIsAdded } = useContext(AuthContext);
+  const { setIsAdded ,setLoading,} = useContext(AuthContext);
   const {
     service,
     serviceName,
@@ -46,6 +46,7 @@ const ReviewRow = ({ review, editable }) => {
       rating: newRating,
       massage,
     };
+    setLoading(true)
     fetch(`http://localhost:5000/review/${_id}`, {
       method: "PATCH",
       headers: {
@@ -54,7 +55,9 @@ const ReviewRow = ({ review, editable }) => {
       body: JSON.stringify(newReview),
     })
       .then((res) => res.json())
-      .then((user) => { console.log('working3')})
+      .then((user) => { console.log('working3')
+      setIsAdded(user)
+    })
       .catch((err) => console.error(err));
 
     fetch(`http://localhost:5000/services/${service}`)
@@ -66,8 +69,11 @@ const ReviewRow = ({ review, editable }) => {
         console.log('working2')
       })
       .catch((err) => console.error(err));
+      setLoading(false)
   };
   useEffect(() => {
+    setLoading(true)
+
     fetch(`http://localhost:5000/services/${service}`, {
       method: "PATCH",
       headers: {
@@ -79,17 +85,22 @@ const ReviewRow = ({ review, editable }) => {
       .then((data) => {
         console.log('working1')
       });
+      setLoading(false)
   }, [added]);
 
   const handelDelete = () => {
     const agree = window.confirm("are you sure to delete it");
     if (agree) {
+    setLoading(true)
+
       fetch(`http://localhost:5000/review/${_id}`, {
         method: "DELETE",
       })
         .then((res) => res.json())
         .then((data) => setIsAdded(data))
         .catch((e) => console.error(e));
+    setLoading(false)
+
     }
   };
   return (
@@ -155,7 +166,7 @@ const ReviewRow = ({ review, editable }) => {
       <th>
         {editable && (
           <div>
-            <button onClick={onOpenModal}>Open modal</button>
+            <button  className="btn  btn-ghost btn-xs mr-4" onClick={onOpenModal}>Edit</button>
             <button
               onClick={handelDelete}
               className="btn btn-outline btn-error rounded-full"
@@ -167,7 +178,7 @@ const ReviewRow = ({ review, editable }) => {
         <Modal open={open} onClose={onCloseModal} center>
           <div>
             <p className="text-lg font-semibold w-1/2 mx-auto">
-              Edit rating and review of {serviceName} and {massage}
+              Edit rating and review 
             </p>
           </div>
           <form onSubmit={handleEditReview}>

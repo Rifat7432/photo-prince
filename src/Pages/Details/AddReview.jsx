@@ -10,7 +10,7 @@ const AddReview = ({ service }) => {
   const navigate = useNavigate()
   
   const { _id, name ,rating} = service;
-  const { user ,setIsAdded} = useContext(AuthContext);
+  const { user ,setIsAdded,setLoading, loading } = useContext(AuthContext);
   const [newRating, setNewRating] = useState(0);
   const ratingChanged = (newRating) => {
     setNewRating(newRating);
@@ -35,6 +35,7 @@ const AddReview = ({ service }) => {
       massage,
       dateTime,
     };
+    setLoading(true)
     fetch("http://localhost:5000/review", {
       method: "POST",
       headers: {
@@ -61,6 +62,7 @@ const AddReview = ({ service }) => {
     navigate(`/service/${_id}`)
     })
     .catch(e=>console.error(e))
+    setLoading(false)
   
   };
 
