@@ -4,13 +4,21 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import ShoeReview from "../../Share/ShoeReview";
 import Loading from "../../Share/Loading";
+import useTitle from "../../Utilities/Utilities";
 
 const MyReviews = () => {
+  useTitle('Photo Prince - My Reviews')
   const { user, isAdded, loading, setLoading } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:5000/userReview/${user?.email}`)
+    fetch(
+      `https://assignment-11-server-rifat7432.vercel.app/userReview/${user?.email}`,{
+        headers:{
+          authorization : `Bearer ${localStorage.getItem('token')}`
+        }
+      }
+    )
       .then((res) => res.json())
       .then((data) => setReviews(data));
     setLoading(false);

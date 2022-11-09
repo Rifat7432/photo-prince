@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import signUPImg from "../../Image/download (1).png";
 import SocialLogin from "../../Share/SocialLogin";
+import useTitle from "../../Utilities/Utilities";
 
 const SignUp = () => {
+  useTitle('Photo Prince - Sign Up')
   const { signUp, update } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleSignUp = (event) => {
@@ -16,10 +19,23 @@ const SignUp = () => {
     signUp(email, password)
       .then((result) => {
         update(name, photo);
-        event.target.reset();
-
+        const user = result.user
+     
+        fetch('https://assignment-11-server-rifat7432.vercel.app/jwt',{
+          method:"POST",
+          headers:{
+            'content-type' : 'application/json'
+          },
+          body:JSON.stringify({user:user.email})
+        })
+        .then(res=>res.json())
+        .then(data=>{
+          localStorage.setItem('token',data.token)
+        })
+        .catch(e=>console.error(e))
         navigate("/");
-        console.log(result.user)
+        event.target.reset();
+        toast.success('User login successful')
       })
       .catch((e) => console.error(e));
   };

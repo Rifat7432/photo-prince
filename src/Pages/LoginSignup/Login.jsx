@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import loinImg from "../../Image/download.png";
+import loinImg from "../../Image/download.jfif";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import SocialLogin from "../../Share/SocialLogin";
+import useTitle from "../../Utilities/Utilities";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  useTitle('Photo Prince - Login')
   const navigate = useNavigate();
   const location = useLocation();
   const form = location.state?.from.pathname || "/";
@@ -15,22 +18,23 @@ const Login = () => {
     const password = event.target.password.value;
     login(email, password)
       .then((result) => {
-        //   const user = result.user
+          const user = result.user
 
-        //   fetch('https://genius-car-server-delta.vercel.app/jwt',{
-        //     method:"POST",
-        //     headers:{
-        //       'content-type' : 'application/json'
-        //     },
-        //     body:JSON.stringify({user:user.email})
-        //   })
-        //   .then(res=>res.json())
-        //   .then(data=>{
-        //     localStorage.setItem('token',data.token)
-        //   })
-        //   .catch(e=>console.error(e))
-        navigate(form, { replace: true });
-        event.target.reset();
+          fetch('https://assignment-11-server-rifat7432.vercel.app/jwt',{
+            method:"POST",
+            headers:{
+              'content-type' : 'application/json'
+            },
+            body:JSON.stringify({user:user.email})
+          })
+          .then(res=>res.json())
+          .then(data=>{
+            localStorage.setItem('token',data.token)
+            navigate(form, { replace: true });
+            event.target.reset();
+        toast.success('User login successful')
+          })
+          .catch(e=>console.error(e))
       })
       .catch((e) => console.error(e));
   };

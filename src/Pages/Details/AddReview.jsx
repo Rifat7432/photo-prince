@@ -5,24 +5,23 @@ import { AuthContext } from "../../AuthContext/AuthProvider";
 import { FaPaperPlane } from "react-icons/fa";
 import { useState } from "react";
 import ReactStars from "react-rating-stars-component";
+import toast from "react-hot-toast";
 
 const AddReview = ({ service }) => {
-  const navigate = useNavigate()
-  
-  const { _id, name ,rating} = service;
-  const { user ,setIsAdded,setLoading, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const { _id, name, rating } = service;
+  const { user, setIsAdded, setLoading, loading } = useContext(AuthContext);
   const [newRating, setNewRating] = useState(0);
   const ratingChanged = (newRating) => {
     setNewRating(newRating);
   };
   const handleReview = (event) => {
-    const totalRating = rating + newRating
     event.preventDefault();
-    if(newRating === 0){
-     return ;
+    if (newRating === 0) {
+      return;
     }
     const dateTime = new Date().toLocaleString();
-    // console.log(new Date(dateTime).getTime())
     const form = event.target;
     const massage = form.massage.value;
     const review = {
@@ -31,45 +30,36 @@ const AddReview = ({ service }) => {
       Name: user.displayName,
       email: user.email,
       img: user.photoURL,
-      rating:newRating,
+      rating: newRating,
       massage,
       dateTime,
     };
-    setLoading(true)
-    fetch("http://localhost:5000/review", {
+    setLoading(true);
+    fetch("https://assignment-11-server-rifat7432.vercel.app/review", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization : `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify(review),
     })
       .then((res) => res.json())
       .then((user) => {
-        console.log(user)
+        setIsAdded(user);
         form.reset();
+        toast.success('Review added successfully!')
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err)
+      });
 
-      fetch(`http://localhost:5000/services/${_id}`,{
-      method:"PATCH",
-      headers:{
-        'content-type' : 'application/json',
-      },
-      body:JSON.stringify({rating : totalRating})
-    })
-    .then(res=>res.json())
-    .then(data=>{setIsAdded(data)
-    navigate(`/service/${_id}`)
-    })
-    .catch(e=>console.error(e))
-    setLoading(false)
-  
+    setLoading(false);
   };
 
   return (
     <div className="w-3/4 mx-auto">
       <label htmlFor="my-modal-3" className="btn my-10 btn-primary btn-outline">
-        Add Review
+        Add Your Review
       </label>
 
       <input type="checkbox" id="my-modal-3" className="modal-toggle" />
@@ -119,11 +109,16 @@ const AddReview = ({ service }) => {
                 placeholder="Your massage"
               ></textarea>
               <button className="btn p-0 btn-primary mb5 btn-outline">
-                
-                <label htmlFor="my-modal-3" style={{cursor:'pointer'}} className="p-4 flex">
-                  Post<span className="ml-5"><FaPaperPlane></FaPaperPlane></span>
+                <label
+                  htmlFor="my-modal-3"
+                  style={{ cursor: "pointer" }}
+                  className="p-4 flex"
+                >
+                  Post
+                  <span className="ml-5">
+                    <FaPaperPlane></FaPaperPlane>
+                  </span>
                 </label>
-                
               </button>
             </form>
           ) : (
@@ -139,6 +134,4 @@ const AddReview = ({ service }) => {
     </div>
   );
 };
-
 export default AddReview;
-// new Date().getTime()
