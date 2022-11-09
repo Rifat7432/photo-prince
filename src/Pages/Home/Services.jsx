@@ -7,6 +7,7 @@ import ServiceCard from './ServiceCard';
 const Services = () => {
     const nsviget = useNavigate()
     const [services,setServices] = useState([])
+    console.log(services)
     useEffect(()=>{
         fetch('http://localhost:5000/services/3')
         .then(res=>res.json())

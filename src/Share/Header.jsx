@@ -13,7 +13,7 @@ const Header = () => {
   <li>
     <Link to={`/myreview/${user?.email}`}>My Reviews</Link>
   </li> <li>
-    <Link to={'/login'}> Add Service</Link>
+    <Link to={'/addservices'}> Add Service</Link>
   </li>
   <li>
     <Link onClick={logout} >Logout</Link>

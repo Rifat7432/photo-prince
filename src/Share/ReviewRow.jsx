@@ -1,18 +1,73 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";
 import ReactStars from "react-rating-stars-component";
+import { AuthContext } from "../AuthContext/AuthProvider";
 
 const ReviewRow = ({ review, editable }) => {
-  const { serviceName, Name, email, img, rating, massage, dateTime } = review;
+  const {
+    service,
+    serviceName,
+    Name,
+    email,
+    img,
+    rating,
+    massage,
+    dateTime,
+    _id,
+  } = review;
+  const [added, setAdded] = useState({});
   const [newRating, setNewRating] = useState(0);
+  const [totalRating, setTotalRating] = useState(0);
+  const [totalServiceRating, setTotalServiceRating] = useState(0);
   const ratingChanged = (newRating) => {
     setNewRating(newRating);
   };
   const handleEditReview = (event) => {
+    setTotalRating((totalServiceRating - rating) + newRating);
     event.preventDefault();
+    if (newRating === 0) {
+      return;
+    }
+    // console.log(new Date(dateTime).getTime())
+    const form = event.target;
+    const massage = form.massage.value;
+    const newReview = {
+      rating: newRating,
+      massage,
+    };
+    fetch(`http://localhost:5000/review/${_id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newReview),
+    })
+      .then((res) => res.json())
+      .then((user) => {})
+      .catch((err) => console.error(err));
+
+    fetch(`http://localhost:5000/services/${service}`)
+      .then((res) => res.json())
+      .then((user) => {
+        setTotalServiceRating(user.rating);
+        setAdded(user);
+      })
+      .catch((err) => console.error(err));
   };
+  useEffect(() => {
+    fetch(`http://localhost:5000/services/${service}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ rating: totalRating }),
+    })
+      .then((res) => res.json())
+      .then((data) => {});
+  }, [added]);
 
   return (
     <tr>
@@ -90,7 +145,9 @@ const ReviewRow = ({ review, editable }) => {
               ✕
             </label>
             <div>
-                <p className="text-lg font-semibold w-1/2 mx-auto">Edit rating and review</p>
+              <p className="text-lg font-semibold w-1/2 mx-auto">
+                Edit rating and review of {serviceName} and {massage}
+              </p>
             </div>
             <form onSubmit={handleEditReview}>
               <div className="flex items-center">
