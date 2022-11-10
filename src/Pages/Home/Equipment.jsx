@@ -2,10 +2,11 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import EquipmentCard from "./EquipmentCard";
-
+// this component show all Card fo  Equipments
 const Equipment = () => {
   const [equipments, setEquipments] = useState([]);
   useEffect(() => {
+    //send request to get equipments data
     fetch("https://assignment-11-server-rifat7432.vercel.app/equipment")
       .then((res) => res.json())
       .then((data) => setEquipments(data));

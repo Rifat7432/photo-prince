@@ -9,29 +9,40 @@ import Login from "./Pages/LoginSignup/Login";
 import SignUp from "./Pages/LoginSignup/SignUp";
 import MyReviews from "./Pages/MyReviews/MyReviews";
 import Privet from "./Share/Privet";
-import ShoeReview from "./Share/ShoeReview";
+
+// creating router
 
 const router = createBrowserRouter([
+  //Main  layout
   {
     path: "/",
     element: <Main></Main>,
     children: [
+      //Home route
       {
         path: "/",
         element: <Home></Home>,
       },
+      //Blog route
       {
         path: "/blog",
         element: <Blog></Blog>,
       },
+      //Login route
       {
         path: "/login",
         element: <Login></Login>,
       },
+      //AddServices Privet route
       {
         path: "/addservices",
-        element: <Privet><AddServices></AddServices></Privet>,
+        element: (
+          <Privet>
+            <AddServices></AddServices>
+          </Privet>
+        ),
       },
+      //MyReviews Privet route
       {
         path: "/myreview/:email",
         element: (
@@ -40,10 +51,12 @@ const router = createBrowserRouter([
           </Privet>
         ),
       },
+      //Details route
       {
         path: "/signup",
         element: <SignUp></SignUp>,
       },
+      //Details route
       {
         path: "/allservices",
         element: <AllServices></AllServices>,
@@ -53,6 +66,7 @@ const router = createBrowserRouter([
           );
         },
       },
+      //Details route
       {
         path: "/service/:id",
         element: <Details></Details>,

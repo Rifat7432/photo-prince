@@ -3,7 +3,7 @@ import img1 from "../../BannerImage/photo-1492684223066-81342ee5ff30.avif";
 import img2 from "../../BannerImage/photo-1587271407850-8d438ca9fdf2.avif";
 import img3 from "../../BannerImage/photo-1587825140708-dfaf72ae4b04.avif";
 import img4 from "../../BannerImage/premium_photo-1665203504385-884cd2b58164.avif";
-
+// this is a carousel like banner
 const Banner = () => {
   return (
     <div className="carousel w-full mt-10">

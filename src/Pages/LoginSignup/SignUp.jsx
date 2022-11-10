@@ -7,9 +7,13 @@ import SocialLogin from "../../Share/SocialLogin";
 import useTitle from "../../Utilities/Utilities";
 
 const SignUp = () => {
-  useTitle('Photo Prince - Sign Up')
+  //dynamic title
+  useTitle("Photo Prince - Sign Up");
+  // get signUp and update function from Context provider
   const { signUp, update } = useContext(AuthContext);
+  // using navigate
   const navigate = useNavigate();
+  // sign up function
   const handleSignUp = (event) => {
     event.preventDefault();
     const email = event.target.email.value;
@@ -19,28 +23,29 @@ const SignUp = () => {
     signUp(email, password)
       .then((result) => {
         update(name, photo);
-        const user = result.user
-     
-        fetch('https://assignment-11-server-rifat7432.vercel.app/jwt',{
-          method:"POST",
-          headers:{
-            'content-type' : 'application/json'
+        const user = result.user;
+        // sending request to get jwt token
+        fetch("https://assignment-11-server-rifat7432.vercel.app/jwt", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
           },
-          body:JSON.stringify({user:user.email})
+          body: JSON.stringify({ user: user.email }),
         })
-        .then(res=>res.json())
-        .then(data=>{
-          localStorage.setItem('token',data.token)
-        })
-        .catch(e=>console.error(e))
+          .then((res) => res.json())
+          .then((data) => {
+            //set token in localStorage
+            localStorage.setItem("token", data.token);
+          })
+          .catch((e) => {});
         navigate("/");
         event.target.reset();
-        toast.success('User login successful')
+        toast.success("User login successful");
       })
-      .catch((e) => console.error(e));
+      .catch((e) => {toast.error(`${e.message}`)});
   };
   return (
-    <div className="hero min-h-screen rounded ">
+    <div className="hero my-8 rounded ">
       <div className="hero-content lg:gap-48 flex-col lg:flex-row">
         <div className="text-center lg:text-left">
           <img
@@ -50,7 +55,8 @@ const SignUp = () => {
           />
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <h1 className="text-5xl text-center font-bold my-6">Sign Up</h1>
+          <h1 className="text-5xl sm:text-center font-bold my-6">Sign Up</h1>
+          {/* sign up from  */}
           <form onSubmit={handleSignUp} className="card-body">
             <div className="form-control">
               <label className="label">
@@ -66,7 +72,7 @@ const SignUp = () => {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Name</span>
+                <span className="label-text">Photo url</span>
               </label>
               <input
                 required
@@ -103,13 +109,18 @@ const SignUp = () => {
             <div className="form-control mt-6">
               <button className="btn btn-primary">Sign Up</button>
             </div>
-              <label className="text-lg">
-                Already have account 
-                <Link to={'/login'} className=" text-cyan-600 link link-hover ml-4">Login</Link>
-              </label>
+            <label className="text-lg">
+              Already have account
+              <Link
+                to={"/login"}
+                className=" text-cyan-600 link link-hover ml-4"
+              >
+                Login
+              </Link>
+            </label>
           </form>
           <div className="mx-auto mb-6">
-            <SocialLogin text={'Sign Up'}></SocialLogin>
+            <SocialLogin text={"Sign Up"}></SocialLogin>
           </div>
         </div>
       </div>

@@ -1,12 +1,12 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
-
+// this component show  Card fo a Equipment
 const EquipmentCard = ({ equipment }) => {
   const { name, rating, img } = equipment;
   return (
     <div className="card card-compact bg-base-100 shadow-xl">
       <figure>
-        <img src={img} className='h-60' alt="Shoes" />
+        <img src={img} className="h-60" alt="Shoes" />
       </figure>
       <div className="card-body ">
         <h2 className="card-title">{name}</h2>

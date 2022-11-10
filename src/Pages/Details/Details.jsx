@@ -10,23 +10,22 @@ import Loading from "../../Share/Loading";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import useTitle from "../../Utilities/Utilities";
-
+// this component usage to show the Details fo a service reviews
 const Details = () => {
-  useTitle('Photo Prince - Service Details')
+  //dynamic title
+  useTitle("Photo Prince - Service Details");
+  //get  a service to useLoaderData
   const [service] = useLoaderData();
-  const { description, rating, price, _id, name, img } = service;
-  const { isAdded, loading, setLoading } = useContext(AuthContext);
+  const { description, price, _id, name, img } = service;
+  //get  a state to AuthContext
+  const { isAdded } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
-  console.log(reviews.length === 0);
   useEffect(() => {
     setLoading(true);
+    //send request to get Review data  by service id
     fetch(
-      `https://assignment-11-server-rifat7432.vercel.app/serviceReview/${_id}`,
-      {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
+      `https://assignment-11-server-rifat7432.vercel.app/serviceReview/${_id}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -36,16 +35,18 @@ const Details = () => {
   }, [isAdded]);
   return (
     <div className="my-20">
-      {loading ? (
+      {reviews.length === 0 && loading ? (
+        /* conditional rendering to show spinner */
         <Loading></Loading>
       ) : (
+        // detail card
         <div>
-          <div className="card card-compact w-3/4 mx-auto bg-base-100 border">
+          <div className="card card-compact sm:w-3/4 sm:mx-auto bg-base-100 border">
             <PhotoProvider>
               <PhotoView src={img}>
                 <img
                   src={img}
-                  className="w-full"
+                  className="w-full rounded"
                   alt="unable to show thumbal"
                 />
               </PhotoView>
@@ -56,6 +57,7 @@ const Details = () => {
               <div className="card-actions justify-evenly">
                 <p className="font-semibold text-lg ">Price : {price}</p>
                 <span className="badge badge-ghost font-semibold text-lg ">
+                  {/* show ratings by calculating total user and ratings */}
                   Rating :{" "}
                   {reviews.length === 0
                     ? 0
@@ -72,14 +74,22 @@ const Details = () => {
           </div>
           <div className="w-3/4 mx-auto my-12">
             {reviews.length > 0 ? (
+              // showing user review
+              // ShoeReview component usage also detail component
+              // editable={true} usage for make difference between this
+              // component and detail component
+              // if editable=true edit , delete  button will show
+              //otherwise edit , delete  button will not show
               <ShoeReview editable={false} reviews={reviews}></ShoeReview>
             ) : (
+              // if there are no review then show this
               <h3 className="text-4xl font-bold w-1/2 m-auto text-center">
                 No reviews were added !
               </h3>
             )}
           </div>
-          <div className="w-1/4 ml-auto">
+          <div className="w-1/4 mx-auto">
+            {/* send AddReview component data  b*/}
             <AddReview service={service}></AddReview>
           </div>
         </div>
